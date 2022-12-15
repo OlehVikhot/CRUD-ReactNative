@@ -12,7 +12,12 @@ const inputs = [
 ];
 
 function AddNewPostScreen({ navigation, route }) {
-  const [inputData, setInputData] = useState();
+  const [inputData, setInputData] = useState({
+    title: "",
+    text: "",
+    image: "",
+    url: "",
+  });
   const { addItem, updateItem } = useContext(DataContext);
 
   function handleInput(text, title) {
@@ -32,6 +37,7 @@ function AddNewPostScreen({ navigation, route }) {
       });
   }, []);
 
+  const [errorMessage, setErrorMessage] = useState("");
   function completeEditing() {
     if (
       inputData?.title &&
@@ -43,6 +49,7 @@ function AddNewPostScreen({ navigation, route }) {
       if (type === "add") addItem(inputData);
       navigation.navigate("MainScreen");
     } else {
+      setErrorMessage("Fill the input");
       Alert.alert("Fill all fields");
     }
   }
@@ -73,6 +80,8 @@ function AddNewPostScreen({ navigation, route }) {
     <View style={{ justifyContent: "center" }}>
       {inputs.map((item, index) => (
         <MyInput
+          errorStyle={{ color: "red" }}
+          errorMessage={inputData[item.id] ? "" : errorMessage}
           key={index}
           title={item.title}
           value={inputData?.[item.id]}
