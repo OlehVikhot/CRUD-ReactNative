@@ -5,12 +5,6 @@ import { DataContext } from "../store/DataContext";
 import Post from "../components/Post";
 
 const MainScreen = ({ navigation }) => {
-  const { error, loading, items, uploadItems } = useContext(DataContext);
-
-  useEffect(() => {
-    uploadItems();
-  }, []);
-
   navigation.setOptions({
     headerTitle: "Posts",
     headerLeft: () => (
@@ -35,6 +29,12 @@ const MainScreen = ({ navigation }) => {
       />
     ),
   });
+
+  const { error, loading, items, uploadItems } = useContext(DataContext);
+
+  useEffect(() => {
+    uploadItems();
+  }, []);
 
   return (
     <>
@@ -69,7 +69,7 @@ const MainScreen = ({ navigation }) => {
               }
             />
           )}
-          keyExtractor={(item) => item.id}
+          keyExtractor={(item) => item._id}
         />
       )}
     </>

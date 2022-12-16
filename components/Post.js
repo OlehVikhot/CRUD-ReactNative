@@ -1,5 +1,11 @@
 import React, { useContext } from "react";
-import { View, StyleSheet, Image } from "react-native";
+import {
+  View,
+  StyleSheet,
+  Image,
+  Linking,
+  TouchableOpacity,
+} from "react-native";
 import { Text, Card, Button, Icon } from "@rneui/themed";
 import { DataContext } from "../store/DataContext";
 
@@ -7,17 +13,18 @@ function Post({ itemData, onPress }) {
   const { title, text, image, url } = itemData;
   const { deleteItem } = useContext(DataContext);
 
+  let defaultImage =
+    "https://user-images.githubusercontent.com/43302778/106805462-7a908400-6645-11eb-958f-cd72b74a17b3.jpg";
+
   return (
-    <View style={styles.container}>
+    <TouchableOpacity
+      style={styles.container}
+      onPress={() => Linking.openURL(url)}
+    >
       <Card>
         <Card.Title>{title}</Card.Title>
         <Card.Divider />
-        <Card.Image
-          style={{ padding: 0 }}
-          source={{
-            uri: "https://awildgeographer.files.wordpress.com/2015/02/john_muir_glacier.jpg",
-          }}
-        />
+        <Card.Image style={{ padding: 0 }} source={{ uri: image }} />
         <Text style={{ marginBottom: 10, marginTop: 10 }}>{text}</Text>
         <View style={styles.btnContainer}>
           <Button
@@ -35,7 +42,7 @@ function Post({ itemData, onPress }) {
             title='Edit'
           />
           <Button
-            onPress={() => deleteItem(itemData.id)}
+            onPress={() => deleteItem(itemData._id)}
             color='error'
             icon={
               <Icon
@@ -51,7 +58,7 @@ function Post({ itemData, onPress }) {
           />
         </View>
       </Card>
-    </View>
+    </TouchableOpacity>
   );
 }
 

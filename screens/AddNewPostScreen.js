@@ -11,6 +11,16 @@ const inputs = [
   { id: "url", title: "URL" },
 ];
 
+function validURL(str) {
+  var regex =
+    /(?:https?):\/\/(\w+:?\w*)?(\S+)(:\d+)?(\/|\/([\w#!:.?+=&%!\-\/]))?/;
+  if (!regex.test(str)) {
+    return false;
+  } else {
+    return true;
+  }
+}
+
 function AddNewPostScreen({ navigation, route }) {
   const [inputData, setInputData] = useState({
     title: "",
@@ -18,41 +28,13 @@ function AddNewPostScreen({ navigation, route }) {
     image: "",
     url: "",
   });
-  const { addItem, updateItem } = useContext(DataContext);
+  const [errorMessage, setErrorMessage] = useState("");
 
-  function handleInput(text, title) {
-    setInputData((prevState) => {
-      return { ...prevState, [title]: text };
-    });
-  }
+  const { addItem, updateItem } = useContext(DataContext);
 
   const type = route.params.type;
   const headerTitle = route.params.title;
-  const { title, text, image, url, id } = route?.params?.data?.item || {};
-
-  useEffect(() => {
-    route.params.data &&
-      setInputData((prevState) => {
-        return { text, title, image, url };
-      });
-  }, []);
-
-  const [errorMessage, setErrorMessage] = useState("");
-  function completeEditing() {
-    if (
-      inputData?.title &&
-      inputData?.text &&
-      inputData?.image &&
-      inputData?.url
-    ) {
-      if (type === "edit") updateItem({ ...inputData, id });
-      if (type === "add") addItem(inputData);
-      navigation.navigate("MainScreen");
-    } else {
-      setErrorMessage("Fill the input");
-      Alert.alert("Fill all fields");
-    }
-  }
+  const { title, text, image, url, _id } = route?.params?.data?.item || {};
 
   navigation.setOptions({
     headerTitle: headerTitle,
@@ -75,6 +57,37 @@ function AddNewPostScreen({ navigation, route }) {
       />
     ),
   });
+
+  useEffect(() => {
+    route.params.data &&
+      setInputData((prevState) => {
+        return { text, title, image, url };
+      });
+  }, []);
+
+  function handleInput(text, title) {
+    setInputData((prevState) => {
+      return { ...prevState, [title]: text };
+    });
+  }
+
+  function completeEditing() {
+    if (
+      !inputData?.title ||
+      !inputData?.text ||
+      !inputData?.image ||
+      !inputData?.url
+    )
+      return setErrorMessage("Fill the input");
+
+    if (!validURL(inputData.image) && !validURL(inputData.url)) {
+      return alert("Check info, Wrong URL");
+    }
+
+    if (type === "edit") updateItem({ ...inputData, _id });
+    if (type === "add") addItem(inputData);
+    navigation.navigate("MainScreen");
+  }
 
   return (
     <View style={{ justifyContent: "center" }}>

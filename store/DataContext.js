@@ -27,9 +27,15 @@ export const DataContextProvider = (props) => {
     (async () => {
       try {
         const res = await postData(item);
+
+        console.log(res.data._id);
         if (res)
-          setItems((prevState) => [{ ...item, id: res.data.id }, ...prevState]);
+          setItems((prevState) => [
+            { ...item, _id: res.data._id },
+            ...prevState,
+          ]);
       } catch (err) {
+        console.log(err);
         setError(error);
       }
     })();
@@ -43,7 +49,7 @@ export const DataContextProvider = (props) => {
         if (res)
           setItems((prevState) =>
             prevState.map((item) => {
-              if (item.id === data.id) {
+              if (item._id === data._id) {
                 item = { ...item, ...data };
               }
               return item;
@@ -60,7 +66,7 @@ export const DataContextProvider = (props) => {
       try {
         const res = await deleteData(id);
         if (res)
-          setItems((prevState) => prevState.filter((item) => item.id !== id));
+          setItems((prevState) => prevState.filter((item) => item._id !== id));
       } catch (err) {
         setError(error);
       }
