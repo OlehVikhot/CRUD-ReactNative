@@ -36,27 +36,29 @@ function AddNewPostScreen({ navigation, route }) {
   const headerTitle = route.params.title;
   const { title, text, image, url, _id } = route?.params?.data?.item || {};
 
-  navigation.setOptions({
-    headerTitle: headerTitle,
-    headerLeft: () => (
-      <Icon
-        name='chevron-back'
-        type='ionicon'
-        color='black'
-        iconStyle={{ marginLeft: 10 }}
-        onPress={() => navigation.goBack()}
-      />
-    ),
-    headerRight: () => (
-      <Icon
-        name='md-checkmark-sharp'
-        type='ionicon'
-        color='black'
-        iconStyle={{ marginRight: 10 }}
-        onPress={() => completeEditing()}
-      />
-    ),
-  });
+  useEffect(() => {
+    navigation.setOptions({
+      headerTitle: headerTitle,
+      headerLeft: () => (
+        <Icon
+          name='chevron-back'
+          type='ionicon'
+          color='black'
+          iconStyle={{ marginLeft: 10 }}
+          onPress={() => navigation.goBack()}
+        />
+      ),
+      headerRight: () => (
+        <Icon
+          name='md-checkmark-sharp'
+          type='ionicon'
+          color='black'
+          iconStyle={{ marginRight: 10 }}
+          onPress={() => completeEditing()}
+        />
+      ),
+    });
+  }, []);
 
   useEffect(() => {
     route.params.data &&

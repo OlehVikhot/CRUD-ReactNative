@@ -1,34 +1,37 @@
 import { useContext, useEffect, useRef } from "react";
+
 import { FlatList, View } from "react-native";
 import { Button, Icon } from "@rneui/base";
 import { DataContext } from "../store/DataContext";
 import Post from "../components/Post";
 
 const MainScreen = ({ navigation }) => {
-  navigation.setOptions({
-    headerTitle: "Posts",
-    headerLeft: () => (
-      <Icon
-        name='refresh'
-        color='black'
-        iconStyle={{ marginLeft: 10 }}
-        onPress={() => uploadItems()}
-      />
-    ),
-    headerRight: () => (
-      <Icon
-        name='add'
-        color='black'
-        iconStyle={{ marginRight: 10 }}
-        onPress={() =>
-          navigation.navigate("AddNewPostScreen", {
-            type: "add",
-            title: "Add new post",
-          })
-        }
-      />
-    ),
-  });
+  useEffect(() => {
+    navigation.setOptions({
+      headerTitle: "Posts",
+      headerLeft: () => (
+        <Icon
+          name='refresh'
+          color='black'
+          iconStyle={{ marginLeft: 10 }}
+          onPress={() => uploadItems()}
+        />
+      ),
+      headerRight: () => (
+        <Icon
+          name='add'
+          color='black'
+          iconStyle={{ marginRight: 10 }}
+          onPress={() =>
+            navigation.navigate("AddNewPostScreen", {
+              type: "add",
+              title: "Add new post",
+            })
+          }
+        />
+      ),
+    });
+  }, []);
 
   const { error, loading, items, uploadItems } = useContext(DataContext);
 
