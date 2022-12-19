@@ -82,7 +82,7 @@ function AddNewPostScreen({ navigation, route }) {
     )
       return setErrorMessage("Fill the input");
 
-    if (!validURL(inputData.image) && !validURL(inputData.url)) {
+    if (!validURL(inputData.image) || !validURL(inputData.url)) {
       return alert("Check info, Wrong URL");
     }
 
