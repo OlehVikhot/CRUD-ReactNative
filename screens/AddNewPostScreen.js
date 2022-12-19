@@ -49,17 +49,17 @@ function AddNewPostScreen({ navigation, route }) {
           onPress={() => navigation.goBack()}
         />
       ),
-      // headerRight: () => (
-      //   <Icon
-      //     name='md-checkmark-sharp'
-      //     type='ionicon'
-      //     color='black'
-      //     iconStyle={{ marginRight: 10 }}
-      //     onPress={() => completeEditing()}
-      //   />
-      // ),
+      headerRight: () => (
+        <Icon
+          name='md-checkmark-sharp'
+          type='ionicon'
+          color='black'
+          iconStyle={{ marginRight: 10 }}
+          onPress={() => completeEditing()}
+        />
+      ),
     });
-  }, []);
+  }, [inputData]);
 
   useEffect(() => {
     route.params.data &&
@@ -104,18 +104,6 @@ function AddNewPostScreen({ navigation, route }) {
           onChangeText={(text) => handleInput(text, item.id)}
         />
       ))}
-      <View style={{ alignItems: "center", marginTop: 10 }}>
-        <Button
-          onPress={() => completeEditing()}
-          icon={
-            <Icon name='done' color='#ffffff' iconStyle={{ marginRight: 10 }} />
-          }
-          buttonStyle={{
-            width: 150,
-          }}
-          title='Done'
-        />
-      </View>
     </View>
   );
 }
