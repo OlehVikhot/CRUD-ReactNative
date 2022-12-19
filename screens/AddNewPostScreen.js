@@ -104,17 +104,18 @@ function AddNewPostScreen({ navigation, route }) {
           onChangeText={(text) => handleInput(text, item.id)}
         />
       ))}
-      <Button
-        onPress={() => completeEditing()}
-        icon={
-          <Icon name='done' color='#ffffff' iconStyle={{ marginRight: 10 }} />
-        }
-        buttonStyle={{
-          alignItems: "center",
-          width: 150,
-        }}
-        title='Done'
-      />
+      <View style={{ alignItems: "center", marginTop: 10 }}>
+        <Button
+          onPress={() => completeEditing()}
+          icon={
+            <Icon name='done' color='#ffffff' iconStyle={{ marginRight: 10 }} />
+          }
+          buttonStyle={{
+            width: 150,
+          }}
+          title='Done'
+        />
+      </View>
     </View>
   );
 }
