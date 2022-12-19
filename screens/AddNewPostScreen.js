@@ -3,6 +3,7 @@ import { Alert, View } from "react-native";
 import { Icon } from "@rneui/themed";
 import { DataContext } from "../store/DataContext";
 import MyInput from "../components/Input";
+import { Button } from "@rneui/base";
 
 const inputs = [
   { id: "text", title: "Text" },
@@ -48,15 +49,15 @@ function AddNewPostScreen({ navigation, route }) {
           onPress={() => navigation.goBack()}
         />
       ),
-      headerRight: () => (
-        <Icon
-          name='md-checkmark-sharp'
-          type='ionicon'
-          color='black'
-          iconStyle={{ marginRight: 10 }}
-          onPress={() => completeEditing()}
-        />
-      ),
+      // headerRight: () => (
+      //   <Icon
+      //     name='md-checkmark-sharp'
+      //     type='ionicon'
+      //     color='black'
+      //     iconStyle={{ marginRight: 10 }}
+      //     onPress={() => completeEditing()}
+      //   />
+      // ),
     });
   }, []);
 
@@ -73,7 +74,7 @@ function AddNewPostScreen({ navigation, route }) {
     });
   }
 
-  function completeEditing() {
+  const completeEditing = () => {
     if (
       !inputData?.title ||
       !inputData?.text ||
@@ -82,14 +83,14 @@ function AddNewPostScreen({ navigation, route }) {
     )
       return setErrorMessage("Fill the input");
 
-    if (!validURL(inputData.image) || !validURL(inputData.url)) {
-      return alert("Check info, Wrong URL");
+    if (!validURL(inputData.url) && !validURL(inputData.image)) {
+      return Alert.alert("Check info, Wrong URL");
     }
 
     if (type === "edit") updateItem({ ...inputData, _id });
     if (type === "add") addItem(inputData);
     navigation.navigate("MainScreen");
-  }
+  };
 
   return (
     <View style={{ justifyContent: "center" }}>
@@ -103,6 +104,17 @@ function AddNewPostScreen({ navigation, route }) {
           onChangeText={(text) => handleInput(text, item.id)}
         />
       ))}
+      <Button
+        onPress={() => completeEditing()}
+        icon={
+          <Icon name='done' color='#ffffff' iconStyle={{ marginRight: 10 }} />
+        }
+        buttonStyle={{
+          alignItems: "center",
+          width: 150,
+        }}
+        title='Done'
+      />
     </View>
   );
 }
